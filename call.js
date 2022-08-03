@@ -1,4 +1,5 @@
 const videoContainer = document.querySelector("#videos");
+const inputName = document.querySelector('.input-name');
 
 const vm = new Vue({
     el: "#app",
@@ -16,12 +17,10 @@ const vm = new Vue({
     },
     async mounted() {
         api.setRestToken();
-
         const urlParams = new URLSearchParams(location.search);
         const roomId = urlParams.get("room");
         if (roomId) {
             this.roomId = roomId;
-
             await this.join();
         }
     },
@@ -34,7 +33,6 @@ const vm = new Vue({
 
                 if (!this.callClient) {
                     const client = new StringeeClient();
-
                     client.on("authen", function(res) {
                         console.log("on authen: ", res);
                         resolve(res);
@@ -114,7 +112,7 @@ const vm = new Vue({
             await this.publish();
         },
         joinWithId: async function() {
-            const roomId = prompt("Dán Room ID vào đây nhé!");
+            const roomId = inputName.value;
             if (roomId) {
                 this.roomId = roomId;
                 await this.join();
